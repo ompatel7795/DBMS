@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS Practical Exam Solutions 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-database"></i> DBMS Practical Exam Solutions 2025</h1>
+            <p>ITM SLS Baroda University - BTECH III Semester</p>
+        </div>
+    </header>
+
+    <nav class="sticky-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#section-a">A: Supplier (1-10)</a></li>
+                <li><a href="#section-b">B: EmpDetails (11-20)</a></li>
+                <li><a href="#section-c">C: Employee-Dept (21-30)</a></li>
+                <li><a href="#section-d">D: Student (31-40)</a></li>
+                <li><a href="#section-e">E: Library (41-50)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="section-a" class="question-section">
+            <h2>Section A: Supplier Table (Questions 1-10)</h2>
+            <div class="table-info">
+                <h3>Table Structure:</h3>
+                <pre class="code-block">CREATE TABLE Supplier (
+    Sup_No VARCHAR(10) PRIMARY KEY,
+    Sup_Name VARCHAR(50),
+    Item_Supplied VARCHAR(50),
+    Item_Price INT,
+    City VARCHAR(50)
+);</pre>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">1</span>
+                    <h3>Display Supplier numbers and names whose name starts with 'R'</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sup_No, Sup_Name 
+FROM Supplier 
+WHERE Sup_Name LIKE 'R%';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Uses LIKE operator with wildcard 'R%' to match names starting with 'R'. The percent sign (%) matches any sequence of characters after 'R'.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">2</span>
+                    <h3>Display names of suppliers who supply Processors and city is Delhi</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sup_Name 
+FROM Supplier 
+WHERE Item_Supplied = 'Processor' AND City = 'Delhi';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Uses AND operator to combine two conditions: Item_Supplied must be 'Processor' AND City must be 'Delhi'. Only records meeting both conditions are returned.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">3</span>
+                    <h3>Display names of suppliers who supply same items as supplied by Ramesh</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sup_Name 
+FROM Supplier 
+WHERE Item_Supplied IN (
+    SELECT Item_Supplied 
+    FROM Supplier 
+    WHERE Sup_Name = 'Ramesh'
+);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Uses a subquery to first find what items Ramesh supplies, then finds all suppliers who supply those same items. The IN operator checks if Item_Supplied matches any value from the subquery result.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">4</span>
+                    <h3>Increase the price of Keyboard by 200</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">UPDATE Supplier 
+SET Item_Price = Item_Price + 200 
+WHERE Item_Supplied = 'Keyboard';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> UPDATE statement modifies existing records. SET clause adds 200 to current Item_Price value. WHERE clause ensures only Keyboard items are updated.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">5</span>
+                    <h3>Display supplier numbers, names and itemprice for Delhi suppliers in ascending order of itemprice</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sup_No, Sup_Name, Item_Price 
+FROM Supplier 
+WHERE City = 'Delhi' 
+ORDER BY Item_Price ASC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Filters records where City is 'Delhi', then sorts results by Item_Price in ascending order (lowest to highest). ASC is optional as it's the default sort order.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">6</span>
+                    <h3>Add a new column called CONTACTNO</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">ALTER TABLE Supplier 
+ADD COLUMN CONTACTNO VARCHAR(15);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ALTER TABLE modifies table structure. ADD COLUMN adds a new column named CONTACTNO with VARCHAR(15) data type to store phone numbers.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">7</span>
+                    <h3>Delete the record whose itemprice is the lowest</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">DELETE FROM Supplier 
+WHERE Item_Price = (
+    SELECT MIN(Item_Price) 
+    FROM Supplier
+);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Subquery finds the minimum Item_Price using MIN() function. DELETE statement removes records where Item_Price equals this minimum value.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">8</span>
+                    <h3>Create a view displaying only supplier numbers and names</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">CREATE VIEW SupplierView AS 
+SELECT Sup_No, Sup_Name 
+FROM Supplier;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CREATE VIEW creates a virtual table that stores a query. This view will always show current Sup_No and Sup_Name data from the Supplier table without storing duplicate data.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">9</span>
+                    <h3>Display records in descending order of itemprice for each itemsupplied</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Supplier 
+ORDER BY Item_Supplied, Item_Price DESC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ORDER BY with multiple columns: first groups by Item_Supplied, then within each item group, sorts by Item_Price in descending order (highest to lowest).
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">10</span>
+                    <h3>Display suppliers who supply items other than Processor or Keyboard</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Supplier 
+WHERE Item_Supplied NOT IN ('Processor', 'Keyboard');</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> NOT IN operator excludes records where Item_Supplied matches any value in the list. This returns all suppliers who supply items other than Processor or Keyboard.
+                </div>
+            </div>
+        </section>
+
+        <section id="section-b" class="question-section">
+            <h2>Section B: EmpDetails Table (Questions 11-20)</h2>
+            <div class="table-info">
+                <h3>Table Structure:</h3>
+                <pre class="code-block">CREATE TABLE EmpDetails (
+    Eid VARCHAR(10) PRIMARY KEY,
+    Ename VARCHAR(50),
+    DOB DATE,
+    Designation VARCHAR(50),
+    Salary INT,
+    DOJ DATE
+);</pre>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">11</span>
+                    <h3>Display all employees whose designation is Programmer</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE Designation = 'Programmer';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Simple WHERE clause filters records to show only employees with Designation equal to 'Programmer'. Returns all columns for matching records.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">12</span>
+                    <h3>Display employees who have joined after 2014</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE YEAR(DOJ) > 2014;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> YEAR() function extracts the year from DOJ (Date of Joining). Comparison operator > filters employees who joined after year 2014.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">13</span>
+                    <h3>Display all employees whose name ends with 'a'</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE Ename LIKE '%a';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> LIKE operator with '%a' pattern matches names ending with 'a'. The percent sign matches any characters before the final 'a'.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">14</span>
+                    <h3>Display total salary of all employees whose designation is Programmer</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT SUM(Salary) AS TotalSalary 
+FROM EmpDetails 
+WHERE Designation = 'Programmer';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> SUM() aggregate function adds up all Salary values for employees with designation 'Programmer'. AS keyword creates an alias 'TotalSalary' for the result column.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">15</span>
+                    <h3>Display all employee names in upper case</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT UPPER(Ename) AS EmployeeName 
+FROM EmpDetails;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> UPPER() string function converts all characters in Ename to uppercase. Returns transformed names without modifying the actual database data.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">16</span>
+                    <h3>Display details of employee with highest experience</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE DOJ = (
+    SELECT MIN(DOJ) 
+    FROM EmpDetails
+);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Highest experience means earliest joining date. MIN(DOJ) finds the minimum (earliest) date of joining. Main query selects employee(s) with that earliest DOJ.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">17</span>
+                    <h3>Display employees whose name contains 'ee'</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE Ename LIKE '%ee%';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> LIKE with '%ee%' pattern matches names containing 'ee' anywhere in the string. Both percent signs allow any characters before and after 'ee'.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">18</span>
+                    <h3>Increase salaries by 5000 for employees whose designation is DBA</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">UPDATE EmpDetails 
+SET Salary = Salary + 5000 
+WHERE Designation = 'DBA';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> UPDATE statement modifies existing records. Adds 5000 to current Salary for all employees with designation 'DBA'. WHERE clause ensures only DBAs are affected.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">19</span>
+                    <h3>Display employees whose salary is more than average salary</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM EmpDetails 
+WHERE Salary > (
+    SELECT AVG(Salary) 
+    FROM EmpDetails
+);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Subquery calculates average salary using AVG() function. Main query compares each employee's salary against this average and returns those earning more.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">20</span>
+                    <h3>Display in format: "Name is working as Designation with a Salary of Rs.Amount"</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT CONCAT(Ename, ' is working as ', Designation, ' with a Salary of Rs.', Salary) AS EmployeeInfo 
+FROM EmpDetails;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CONCAT() function joins multiple strings and column values into one formatted string. Creates a custom message format for each employee with their name, designation, and salary.
+                </div>
+            </div>
+        </section>
+
+        <section id="section-c" class="question-section">
+            <h2>Section C: Employee-Department Tables (Questions 21-30)</h2>
+            <div class="table-info">
+                <h3>Table Structures:</h3>
+                <pre class="code-block">CREATE TABLE Department (
+    DeptId VARCHAR(10) PRIMARY KEY,
+    Dname VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Employee (
+    Eid INT PRIMARY KEY,
+    Ename VARCHAR(50),
+    DeptId VARCHAR(10),
+    Designation VARCHAR(50),
+    Salary INT CHECK (Salary > 10000),
+    DOJ DATE,
+    FOREIGN KEY (DeptId) REFERENCES Department(DeptId)
+);</pre>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">21</span>
+                    <h3>Display employees who earn more than average salary</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+WHERE Salary > (
+    SELECT AVG(Salary) 
+    FROM Employee
+);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Subquery calculates company-wide average salary. Main query filters employees whose salary exceeds this average, showing above-average earners.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">22</span>
+                    <h3>Display Eid, Ename and Dname</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT E.Eid, E.Ename, D.Dname 
+FROM Employee E 
+INNER JOIN Department D ON E.DeptId = D.DeptId;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> INNER JOIN combines Employee and Department tables based on matching DeptId values. Returns employee ID, name from Employee table and department name from Department table.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">23</span>
+                    <h3>Sort employee table in descending order of salaries</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+ORDER BY Salary DESC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ORDER BY with DESC sorts records from highest to lowest salary. Shows employees ranked by salary with highest earners first.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">24</span>
+                    <h3>List all job designations without repetitions</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT DISTINCT Designation 
+FROM Employee;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> DISTINCT keyword removes duplicate values from result set. Returns unique list of all job designations that exist in the company.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">25</span>
+                    <h3>Display employee details Department wise in ascending order of salaries</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+ORDER BY DeptId, Salary ASC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Multi-level sorting: first groups by DeptId, then within each department sorts by Salary in ascending order (lowest to highest).
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">26</span>
+                    <h3>Display all clerks in DeptId D2</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+WHERE Designation = 'Clerk' AND DeptId = 'D2';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> AND operator combines two conditions: Designation must be 'Clerk' AND DeptId must be 'D2'. Returns only clerks working in department D2.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">27</span>
+                    <h3>Display employees who joined in year 2011</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+WHERE YEAR(DOJ) = 2011;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> YEAR() function extracts year from DOJ date field. Filters employees whose joining year equals 2011.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">28</span>
+                    <h3>Display employees who joined in month of February</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+WHERE MONTH(DOJ) = 2;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> MONTH() function extracts month number from DOJ date (1=January, 2=February, etc.). Filters employees who joined in February (month 2).
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">29</span>
+                    <h3>Display employees whose salary is between 30000 and 45000</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Employee 
+WHERE Salary BETWEEN 30000 AND 45000;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> BETWEEN operator checks if salary falls within specified range (inclusive of both 30000 and 45000). More readable than using >= and <= operators.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">30</span>
+                    <h3>Display employee details with work experience till current date</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT *, 
+    TIMESTAMPDIFF(YEAR, DOJ, CURDATE()) AS Experience_Years 
+FROM Employee;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> TIMESTAMPDIFF() calculates difference between DOJ and current date (CURDATE()) in years. Shows all employee details plus their years of experience.
+                </div>
+            </div>
+        </section>
+
+        <section id="section-d" class="question-section">
+            <h2>Section D: Student Table (Questions 31-40)</h2>
+            <div class="table-info">
+                <h3>Table Structure:</h3>
+                <pre class="code-block">CREATE TABLE Student (
+    Sid INT PRIMARY KEY,
+    Sname VARCHAR(50),
+    DOB DATE,
+    State VARCHAR(50),
+    Gender CHAR(1),
+    Category VARCHAR(50),
+    Course VARCHAR(50)
+);</pre>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">31</span>
+                    <h3>Display students not from Telangana or AndhraPradesh</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Student 
+WHERE State NOT IN ('Telangana', 'AndhraPradesh');</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> NOT IN operator excludes students from specified states. Returns students from all states except Telangana and AndhraPradesh.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">32</span>
+                    <h3>Create view displaying Sid, Sname for students from Telangana</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">CREATE VIEW TelanganaStudents AS 
+SELECT Sid, Sname 
+FROM Student 
+WHERE State = 'Telangana';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CREATE VIEW creates a virtual table showing only Telangana students' IDs and names. View automatically updates when base table changes.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">33</span>
+                    <h3>Create index on column Sname</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">CREATE INDEX idx_Sname ON Student(Sname);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CREATE INDEX creates an index on Sname column to speed up search queries. Improves performance when filtering or sorting by student name.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">34</span>
+                    <h3>Display female students enrolled in Comp course who belong to OBC</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Student 
+WHERE Gender = 'F' AND Course = 'Comp' AND Category = 'OBC';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Multiple AND conditions filter students who meet all three criteria: Female gender, Comp course, and OBC category.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">35</span>
+                    <h3>Display student IDs, names and present age</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sid, Sname, 
+    TIMESTAMPDIFF(YEAR, DOB, CURDATE()) AS Age 
+FROM Student;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> TIMESTAMPDIFF() calculates age by finding years between date of birth (DOB) and current date (CURDATE()). Returns student ID, name and calculated age.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">36</span>
+                    <h3>Display students in ascending order of names for each course</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Student 
+ORDER BY Course, Sname ASC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Multi-level sorting: first groups by Course, then within each course sorts students alphabetically by name in ascending order.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">37</span>
+                    <h3>Delete students enrolled in Comp course who were born after 2002</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">DELETE FROM Student 
+WHERE Course = 'Comp' AND YEAR(DOB) > 2002;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> DELETE removes records matching both conditions: Course is 'Comp' AND birth year is after 2002. YEAR() extracts year from DOB date.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">38</span>
+                    <h3>Add two new columns Contactno and Email</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">ALTER TABLE Student 
+ADD COLUMN Contactno VARCHAR(15), 
+ADD COLUMN Email VARCHAR(100);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ALTER TABLE with multiple ADD COLUMN statements adds two new columns to existing table structure. Both columns start with NULL values for existing records.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">39</span>
+                    <h3>Display student names prefixed with Mr./Ms. based on gender</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT 
+    CASE 
+        WHEN Gender = 'M' THEN CONCAT('Mr. ', Sname)
+        WHEN Gender = 'F' THEN CONCAT('Ms. ', Sname)
+    END AS StudentName 
+FROM Student;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CASE expression checks Gender value. If Male, prefixes 'Mr.'; if Female, prefixes 'Ms.'. CONCAT() joins prefix with student name.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">40</span>
+                    <h3>Display student names where length is 5 characters</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Sname 
+FROM Student 
+WHERE LENGTH(Sname) = 5;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> LENGTH() function returns number of characters in string. Filters students whose name has exactly 5 characters.
+                </div>
+            </div>
+        </section>
+
+        <section id="section-e" class="question-section">
+            <h2>Section E: Library Table (Questions 41-50)</h2>
+            <div class="table-info">
+                <h3>Table Structure:</h3>
+                <pre class="code-block">CREATE TABLE Library (
+    BookId VARCHAR(10) PRIMARY KEY,
+    BookName VARCHAR(100) NOT NULL,
+    Author VARCHAR(50),
+    DatePurchased DATE,
+    Publisher VARCHAR(50),
+    Price INT
+);</pre>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">41</span>
+                    <h3>Display list of authors from Himalaya publications</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT DISTINCT Author 
+FROM Library 
+WHERE Publisher = 'Himalaya';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Filters books from Himalaya publisher and returns unique author names using DISTINCT to eliminate duplicates if same author has multiple books.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">42</span>
+                    <h3>Display total cost of books purchased Publisher wise</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT Publisher, SUM(Price) AS TotalCost 
+FROM Library 
+GROUP BY Publisher;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> GROUP BY groups books by Publisher. SUM(Price) calculates total cost for each publisher group. Shows spending per publisher.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">43</span>
+                    <h3>Count total number of books under Kalyani publications</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT COUNT(*) AS TotalBooks 
+FROM Library 
+WHERE Publisher = 'Kalyani';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> COUNT(*) counts number of records. WHERE clause filters only Kalyani publisher books. Returns total count of Kalyani books.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">44</span>
+                    <h3>Rename column Publisher to Publications</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">ALTER TABLE Library 
+CHANGE COLUMN Publisher Publications VARCHAR(50);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ALTER TABLE with CHANGE COLUMN renames Publisher column to Publications. Must specify data type (VARCHAR(50)) even when not changing it.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">45</span>
+                    <h3>Display books in ascending order of DatePurchased</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Library 
+ORDER BY DatePurchased ASC;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> ORDER BY sorts books by DatePurchased in ascending order (oldest to newest). Shows books in chronological purchase order.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">46</span>
+                    <h3>Create index on fields BookName and Author</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">CREATE INDEX idx_BookName_Author ON Library(BookName, Author);</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> Creates composite index on both BookName and Author columns. Improves performance for queries that search or sort by book name and/or author.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">47</span>
+                    <h3>Display books whose price is between 500 and 700</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Library 
+WHERE Price BETWEEN 500 AND 700;</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> BETWEEN operator filters books with price in range 500 to 700 (inclusive). Returns books in this price range.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">48</span>
+                    <h3>Increase price by 200 for publishers other than Himalaya or Kalyani</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">UPDATE Library 
+SET Price = Price + 200 
+WHERE Publisher NOT IN ('Himalaya', 'Kalyani');</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> UPDATE increases price by 200. NOT IN excludes Himalaya and Kalyani publishers. Only books from other publishers get price increase.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">49</span>
+                    <h3>Display books where author name contains 'Sharma'</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">SELECT * 
+FROM Library 
+WHERE Author LIKE '%Sharma%';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> LIKE with '%Sharma%' pattern matches author names containing 'Sharma' anywhere in the string. Finds all Sharma authors regardless of first name.
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">50</span>
+                    <h3>Create view displaying BookId and BookName for Himalaya publisher</h3>
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                    <pre class="code-block">CREATE VIEW HimalayaBooks AS 
+SELECT BookId, BookName 
+FROM Library 
+WHERE Publisher = 'Himalaya';</pre>
+                </div>
+                <div class="explanation">
+                    <strong>Explanation:</strong> CREATE VIEW creates virtual table showing only BookId and BookName for Himalaya publisher books. View updates automatically when base table changes.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DBMS Practical Exam Solutions - ITM SLS Baroda University</p>
+            <p>All 50 questions solved with detailed explanations</p>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
